@@ -1,0 +1,1733 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>INNOVERSE</title>
+    <style>
+      :root {
+        --bg: #eef3ff;
+        --panel: #ffffff;
+        --panel-alt: #f6f7ff;
+        --panel-strong: #ecf2ff;
+        --primary: #4c6fff;
+        --primary-2: #6a5cff;
+        --primary-3: #5ec8ff;
+        --text: #1a2340;
+        --text-soft: #5a6780;
+        --line: rgba(88, 110, 162, 0.15);
+        --muted: #f2f4ff;
+        --success: #1dbf73;
+        --warning: #f3b257;
+        --danger: #ff617c;
+        --shadow: 0 14px 40px rgba(62, 88, 196, 0.12);
+        --radius: 22px;
+      }
+
+      body.dark {
+        --bg: #101826;
+        --panel: #182335;
+        --panel-alt: #1c2940;
+        --panel-strong: #12203a;
+        --primary: #80a5ff;
+        --primary-2: #8d7dff;
+        --primary-3: #5ec8ff;
+        --text: #ebf1ff;
+        --text-soft: #b9c5de;
+        --line: rgba(159, 176, 219, 0.18);
+        --muted: #1a2332;
+        --success: #40d88a;
+        --warning: #ffbf69;
+        --danger: #ff788a;
+        --shadow: 0 16px 44px rgba(2, 8, 20, 0.42);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html, body {
+        margin: 0;
+        min-height: 100%;
+        font-family: Inter, "Segoe UI", sans-serif;
+        background: linear-gradient(135deg, #eef4ff 0%, #f8faff 100%);
+        color: var(--text);
+      }
+
+      body.dark {
+        background: linear-gradient(135deg, #0d1525 0%, #101a2f 100%);
+      }
+
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      button, input, textarea, select {
+        font: inherit;
+      }
+
+      .app-shell {
+        display: flex;
+        min-height: 100vh;
+      }
+
+      .sidebar {
+        width: 272px;
+        background: rgba(20, 31, 58, 0.96);
+        color: #eef3ff;
+        padding: 28px 18px 20px;
+        position: relative;
+        border-right: 1px solid rgba(255,255,255,0.06);
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 8px 10px 18px;
+        margin-bottom: 22px;
+      }
+
+      .brand-mark {
+        width: 42px;
+        height: 42px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, var(--primary), var(--primary-2));
+        display: grid;
+        place-items: center;
+        font-weight: 800;
+        box-shadow: 0 12px 20px rgba(102, 90, 255, 0.32);
+      }
+
+      .brand-label {
+        font-size: 1.35rem;
+        letter-spacing: 0.06em;
+        font-weight: 800;
+      }
+
+      .nav-section {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .nav-label {
+        color: rgba(223, 228, 249, 0.72);
+        font-size: 0.72rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin: 18px 10px 10px;
+      }
+
+      .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        width: 100%;
+        border: none;
+        background: transparent;
+        color: #e8ecff;
+        border-radius: 14px;
+        padding: 12px 14px;
+        text-align: left;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.2s ease;
+      }
+
+      .nav-item:hover,
+      .nav-item.active {
+        background: linear-gradient(135deg, rgba(76, 111, 255, 0.25), rgba(94, 200, 255, 0.12));
+        box-shadow: inset 0 0 0 1px rgba(148, 173, 255, 0.22);
+      }
+
+      .nav-ico {
+        width: 28px;
+        height: 28px;
+        display: grid;
+        place-items: center;
+        border-radius: 10px;
+        background: rgba(122, 140, 255, 0.12);
+        color: #f0f4ff;
+        font-size: 0.9rem;
+      }
+
+      .sidebar-footer {
+        position: absolute;
+        left: 18px;
+        right: 18px;
+        bottom: 20px;
+      }
+
+      .mini-profile {
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 16px;
+        padding: 12px 12px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .mini-profile .meta {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .avatar {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        font-weight: 800;
+        color: #fff;
+        background: linear-gradient(135deg, var(--primary), var(--primary-3));
+      }
+
+      .user-name {
+        font-weight: 700;
+        font-size: 0.9rem;
+      }
+
+      .user-role {
+        color: rgba(223, 228, 249, 0.7);
+        font-size: 0.72rem;
+      }
+
+      .theme-toggle {
+        border: none;
+        background: rgba(255,255,255,0.05);
+        color: #fff;
+        width: 36px;
+        height: 36px;
+        border-radius: 12px;
+        cursor: pointer;
+      }
+
+      .main-panel {
+        flex: 1;
+        padding: 26px 30px 34px;
+        background: rgba(255,255,255,0.04);
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        margin-bottom: 20px;
+      }
+
+      .page-title {
+        font-size: clamp(1.4rem, 2.2vw, 2.2rem);
+        font-weight: 800;
+        letter-spacing: -0.04em;
+      }
+
+      .topbar-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .search-wrap {
+        display: flex;
+        align-items: center;
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        height: 46px;
+        min-width: 240px;
+        padding: 0 14px;
+        box-shadow: var(--shadow);
+      }
+
+      .search-wrap input {
+        border: none;
+        background: transparent;
+        outline: none;
+        width: 100%;
+        color: var(--text);
+      }
+
+      .icon-button,
+      .primary-button,
+      .secondary-button,
+      .ghost-button,
+      .danger-button {
+        border: none;
+        cursor: pointer;
+        border-radius: 12px;
+        transition: transform 0.18s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+      }
+
+      .icon-button:hover,
+      .primary-button:hover,
+      .secondary-button:hover,
+      .ghost-button:hover,
+      .danger-button:hover {
+        transform: translateY(-1px);
+      }
+
+      .icon-button {
+        background: var(--panel);
+        width: 46px;
+        height: 46px;
+        color: var(--text);
+        border: 1px solid var(--line);
+        box-shadow: var(--shadow);
+      }
+
+      .primary-button {
+        background: linear-gradient(135deg, var(--primary), var(--primary-2));
+        color: white;
+        padding: 0.9rem 1.1rem;
+        font-weight: 700;
+        box-shadow: 0 12px 20px rgba(89, 98, 255, 0.22);
+      }
+
+      .secondary-button {
+        background: var(--panel);
+        color: var(--text);
+        border: 1px solid var(--line);
+        padding: 0.9rem 1.1rem;
+        font-weight: 700;
+      }
+
+      .ghost-button {
+        background: rgba(76, 111, 255, 0.08);
+        color: var(--primary);
+        padding: 0.8rem 1rem;
+        font-weight: 700;
+      }
+
+      .danger-button {
+        background: rgba(255, 97, 124, 0.1);
+        color: var(--danger);
+        padding: 0.8rem 1rem;
+        font-weight: 700;
+      }
+
+      .view {
+        display: none;
+      }
+
+      .view.active {
+        display: block;
+      }
+
+      .auth-panel {
+        display: grid;
+        place-items: center;
+        min-height: calc(100vh - 100px);
+      }
+
+      .auth-shell {
+        width: min(1030px, 100%);
+        background: rgba(255,255,255,0.45);
+        border: 1px solid var(--line);
+        border-radius: 30px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        display: grid;
+        grid-template-columns: 1fr 1.05fr;
+      }
+
+      .auth-visual {
+        background: radial-gradient(circle at top left, rgba(120, 136, 255, 0.28), transparent 32%),
+          linear-gradient(135deg, #1a254d 0%, #2e4ed0 55%, #58c3ff 100%);
+        color: white;
+        padding: 42px 34px;
+        position: relative;
+      }
+
+      .auth-visual .tag {
+        display: inline-flex;
+        padding: 0.4rem 0.75rem;
+        background: rgba(255,255,255,0.12);
+        border: 1px solid rgba(255,255,255,0.18);
+        border-radius: 999px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        font-size: 0.72rem;
+      }
+
+      .auth-visual h2 {
+        margin: 22px 0 14px;
+        font-size: clamp(2.1rem, 3vw, 3.2rem);
+        line-height: 1.05;
+        letter-spacing: -0.06em;
+      }
+
+      .auth-visual p {
+        max-width: 360px;
+        font-size: 1rem;
+        line-height: 1.7;
+        color: rgba(255,255,255,0.82);
+      }
+
+      .visual-card {
+        margin-top: 32px;
+        background: rgba(11, 19, 38, 0.18);
+        border: 1px solid rgba(255,255,255,0.12);
+        border-radius: 18px;
+        padding: 18px 18px 16px;
+        max-width: 440px;
+      }
+
+      .visual-stat {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.12);
+      }
+
+      .visual-stat:last-child {
+        border-bottom: none;
+      }
+
+      .stat-name {
+        opacity: 0.8;
+      }
+
+      .stat-value {
+        font-weight: 800;
+        font-size: 1.3rem;
+      }
+
+      .auth-form-wrap {
+        background: var(--panel);
+        padding: 32px 32px 28px;
+      }
+
+      .auth-tabs {
+        display: flex;
+        border-radius: 14px;
+        background: var(--panel-alt);
+        border: 1px solid var(--line);
+        padding: 6px;
+        margin-bottom: 18px;
+      }
+
+      .auth-tab {
+        flex: 1;
+        border: none;
+        background: transparent;
+        color: var(--text-soft);
+        border-radius: 10px;
+        padding: 10px 14px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .auth-tab.active {
+        background: var(--panel);
+        color: var(--text);
+        box-shadow: 0 6px 16px rgba(71, 90, 176, 0.1);
+      }
+
+      .auth-form h3 {
+        margin: 0 0 6px;
+        font-size: 2.1rem;
+        letter-spacing: -0.05em;
+      }
+
+      .auth-form p {
+        color: var(--text-soft);
+        margin: 0 0 22px;
+      }
+
+      .field-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 14px;
+      }
+
+      .field label {
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: var(--text-soft);
+      }
+
+      .field input,
+      .field select,
+      .field textarea {
+        width: 100%;
+        min-height: 48px;
+        border: 1px solid var(--line);
+        background: var(--panel-alt);
+        border-radius: 12px;
+        padding: 0.9rem 0.95rem;
+        color: var(--text);
+        outline: none;
+      }
+
+      .field textarea {
+        min-height: 110px;
+        resize: vertical;
+      }
+
+      .password-wrap {
+        position: relative;
+      }
+
+      .password-wrap button {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        border: none;
+        background: transparent;
+        color: var(--text-soft);
+        cursor: pointer;
+      }
+
+      .form-actions,
+      .inline-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        justify-content: space-between;
+      }
+
+      .check-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--text-soft);
+        font-size: 0.9rem;
+      }
+
+      .text-link {
+        color: var(--primary);
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .alert {
+        display: none;
+        margin-top: 16px;
+        padding: 12px 14px;
+        border-radius: 12px;
+        font-weight: 600;
+      }
+
+      .alert.show {
+        display: block;
+      }
+
+      .alert.success {
+        background: rgba(29, 191, 115, 0.12);
+        color: var(--success);
+      }
+
+      .alert.error {
+        background: rgba(255, 97, 124, 0.12);
+        color: var(--danger);
+      }
+
+      .dashboard-layout {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(180px, 1fr));
+        gap: 18px;
+      }
+
+      .stat-card {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        padding: 20px 18px;
+        box-shadow: var(--shadow);
+      }
+
+      .stat-label {
+        color: var(--text-soft);
+        font-size: 0.86rem;
+        margin-bottom: 12px;
+      }
+
+      .stat-value {
+        font-size: clamp(1.6rem, 2vw, 2.1rem);
+        font-weight: 800;
+        letter-spacing: -0.05em;
+      }
+
+      .stat-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 10px;
+        font-size: 0.8rem;
+      }
+
+      .trend.up { color: var(--success); }
+      .trend.down { color: var(--danger); }
+
+      .content-grid {
+        display: grid;
+        grid-template-columns: 1.35fr 0.95fr;
+        gap: 20px;
+      }
+
+      .panel {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+      }
+
+      .panel-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 20px 20px 14px;
+      }
+
+      .panel-header h3 {
+        margin: 0;
+        font-size: 1.18rem;
+        letter-spacing: -0.03em;
+      }
+
+      .panel-body {
+        padding: 0 20px 20px;
+      }
+
+      .project-list,
+      .stack-list,
+      .mentor-list,
+      .funding-list,
+      .review-list,
+      .bill-list,
+      .team-list,
+      .activity-list {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .project-card,
+      .stack-item,
+      .mentor-card,
+      .list-row,
+      .bill-item,
+      .team-member,
+      .activity-item {
+        background: var(--panel-alt);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 14px 14px;
+      }
+
+      .project-card {
+        display: grid;
+        gap: 12px;
+      }
+
+      .project-head,
+      .mentor-head,
+      .list-meta,
+      .team-head,
+      .activity-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.38rem 0.65rem;
+        border-radius: 999px;
+        font-size: 0.72rem;
+        font-weight: 700;
+      }
+
+      .badge.green { background: rgba(29,191,115,0.12); color: var(--success); }
+      .badge.blue { background: rgba(76,111,255,0.12); color: var(--primary); }
+      .badge.orange { background: rgba(243,178,87,0.14); color: var(--warning); }
+      .badge.red { background: rgba(255,97,124,0.12); color: var(--danger); }
+      .badge.gray { background: rgba(127, 137, 162, 0.12); color: var(--text-soft); }
+
+      .project-title,
+      .mentor-name,
+      .team-name,
+      .activity-title {
+        font-weight: 800;
+        letter-spacing: -0.03em;
+      }
+
+      .muted {
+        color: var(--text-soft);
+      }
+
+      .project-meta,
+      .mentor-meta,
+      .team-meta,
+      .activity-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 10px;
+        color: var(--text-soft);
+        font-size: 0.84rem;
+      }
+
+      .progress {
+        height: 10px;
+        background: rgba(110, 123, 158, 0.12);
+        border-radius: 999px;
+        overflow: hidden;
+      }
+
+      .progress > span {
+        display: block;
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(135deg, var(--primary), var(--primary-3));
+      }
+
+      .section-controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 18px;
+      }
+
+      .pill-button {
+        border: 1px solid var(--line);
+        background: transparent;
+        color: var(--text-soft);
+        border-radius: 999px;
+        padding: 0.6rem 0.9rem;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .pill-button.active {
+        background: rgba(76,111,255,0.08);
+        border-color: rgba(76,111,255,0.2);
+        color: var(--primary);
+      }
+
+      .grid-2 {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .list-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .bill-item {
+        display: grid;
+        gap: 8px;
+      }
+
+      .stack-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+
+      .team-member {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .member-meta {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .mini-avatar {
+        width: 32px;
+        height: 32px;
+        background: linear-gradient(135deg, var(--primary), var(--primary-3));
+        color: white;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        font-size: 0.8rem;
+        font-weight: 800;
+      }
+
+      .resource-card {
+        background: var(--panel-alt);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 18px;
+      }
+
+      .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+
+      .full-span {
+        grid-column: 1 / -1;
+      }
+
+      .ai-output {
+        margin-top: 20px;
+        background: linear-gradient(135deg, rgba(76, 111, 255, 0.06), rgba(94, 200, 255, 0.08));
+        border: 1px solid rgba(76,111,255,0.14);
+        border-radius: 18px;
+        padding: 18px;
+        color: var(--text);
+        line-height: 1.7;
+        white-space: pre-line;
+      }
+
+      .hidden {
+        display: none !important;
+      }
+
+      @media (max-width: 980px) {
+        .auth-shell { grid-template-columns: 1fr; }
+        .content-grid { grid-template-columns: 1fr; }
+        .stats-grid { grid-template-columns: repeat(2, minmax(150px, 1fr)); }
+        .app-shell { flex-direction: column; }
+        .sidebar { width: 100%; }
+      }
+
+      @media (max-width: 680px) {
+        .main-panel { padding: 18px 16px 28px; }
+        .topbar { flex-direction: column; align-items: flex-start; }
+        .topbar-actions { width: 100%; }
+        .search-wrap { flex: 1; min-width: 0; }
+        .field-grid,
+        .form-grid,
+        .stats-grid,
+        .grid-2 { grid-template-columns: 1fr; }
+        .auth-form-wrap { padding: 22px 18px; }
+        .auth-visual { padding: 28px 22px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark">I</div>
+          <div class="brand-label">INNOVERSE</div>
+        </div>
+
+        <nav id="navContainer" class="nav-section" aria-label="Sidebar navigation"></nav>
+
+        <div class="sidebar-footer">
+          <div class="mini-profile">
+            <div class="meta">
+              <div class="avatar" id="headerAvatar">S</div>
+              <div>
+                <div class="user-name" id="headerUserName">Student User</div>
+                <div class="user-role" id="headerUserRole">Student</div>
+              </div>
+            </div>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle light and dark theme">☀️</button>
+          </div>
+        </div>
+      </aside>
+
+      <main class="main-panel">
+        <header class="topbar">
+          <div class="page-title" id="pageTitle">Welcome</div>
+          <div class="topbar-actions">
+            <div class="search-wrap">
+              <span>⌕</span>
+              <input id="globalSearch" type="text" placeholder="Search projects, teams, mentors..." />
+            </div>
+            <button class="icon-button" aria-label="Notifications">🔔</button>
+            <button class="primary-button" id="logoutBtn" type="button">Log out</button>
+          </div>
+        </header>
+
+        <section id="authView" class="view active">
+          <div class="auth-panel">
+            <div class="auth-shell">
+              <div class="auth-visual">
+                <span class="tag">HACKATHON PLATFORM</span>
+                <h2>Build ideas into impact.</h2>
+                <p>
+                  Collaborate with students, mentors, and funders to turn innovative concepts into real projects,
+                  milestones, and measurable outcomes.
+                </p>
+                <div class="visual-card">
+                  <div class="visual-stat">
+                    <span class="stat-name">Active projects</span>
+                    <span class="stat-value">128</span>
+                  </div>
+                  <div class="visual-stat">
+                    <span class="stat-name">Mentor network</span>
+                    <span class="stat-value">36</span>
+                  </div>
+                  <div class="visual-stat">
+                    <span class="stat-name">Funding raised</span>
+                    <span class="stat-value">$94k</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="auth-form-wrap">
+                <div class="auth-tabs">
+                  <button class="auth-tab active" data-auth-tab="login" type="button">Login</button>
+                  <button class="auth-tab" data-auth-tab="register" type="button">Register</button>
+                </div>
+
+                <form id="loginForm" class="auth-form">
+                  <h3>Welcome back</h3>
+                  <p>Sign in to continue your innovation journey.</p>
+
+                  <div class="field">
+                    <label for="loginEmail">Email address</label>
+                    <input id="loginEmail" type="email" placeholder="you@example.com" required />
+                  </div>
+
+                  <div class="field">
+                    <label for="loginPassword">Password</label>
+                    <div class="password-wrap">
+                      <input id="loginPassword" type="password" placeholder="Enter your password" required />
+                      <button type="button" class="toggle-password" data-target="loginPassword" aria-label="Show password">👁</button>
+                    </div>
+                  </div>
+
+                  <div class="field">
+                    <label for="loginRole">Role</label>
+                    <select id="loginRole">
+                      <option value="Student">Student</option>
+                      <option value="Project Owner">Project Owner</option>
+                      <option value="Mentor">Mentor</option>
+                      <option value="Admin">Admin</option>
+                    </select>
+                  </div>
+
+                  <div class="form-actions">
+                    <label class="check-row"><input type="checkbox" /> Remember me</label>
+                    <span class="text-link" id="forgotPasswordLink">Forgot password?</span>
+                  </div>
+
+                  <div style="margin-top: 18px; display: flex; gap: 12px; flex-wrap: wrap;">
+                    <button class="primary-button" type="submit" style="flex: 1; min-width: 140px;">Log in</button>
+                  </div>
+                  <div id="loginAlert" class="alert"></div>
+                </form>
+
+                <form id="registerForm" class="auth-form hidden">
+                  <h3>Create account</h3>
+                  <p>Join INNOVERSE and bring ideas to life.</p>
+
+                  <div class="field-grid">
+                    <div class="field">
+                      <label for="registerFirstName">First name</label>
+                      <input id="registerFirstName" type="text" placeholder="Jane" required />
+                    </div>
+                    <div class="field">
+                      <label for="registerLastName">Last name</label>
+                      <input id="registerLastName" type="text" placeholder="Doe" required />
+                    </div>
+                  </div>
+
+                  <div class="field">
+                    <label for="registerEmail">Email</label>
+                    <input id="registerEmail" type="email" placeholder="you@example.com" required />
+                  </div>
+
+                  <div class="field-grid">
+                    <div class="field">
+                      <label for="registerPassword">Password</label>
+                      <div class="password-wrap">
+                        <input id="registerPassword" type="password" placeholder="Create a password" required />
+                        <button type="button" class="toggle-password" data-target="registerPassword" aria-label="Show password">👁</button>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <label for="registerRole">Role</label>
+                      <select id="registerRole">
+                        <option value="Student">Student</option>
+                        <option value="Project Owner">Project Owner</option>
+                        <option value="Mentor">Mentor</option>
+                        <option value="Admin">Admin</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="field">
+                    <label for="securityQuestion">Security question</label>
+                    <select id="securityQuestion">
+                      <option value="What is the name of your first school?">What is the name of your first school?</option>
+                      <option value="What city were you born in?">What city were you born in?</option>
+                      <option value="What is your favorite teacher's name?">What is your favorite teacher's name?</option>
+                    </select>
+                  </div>
+
+                  <div class="field">
+                    <label for="securityAnswer">Security answer</label>
+                    <input id="securityAnswer" type="text" placeholder="Your answer" required />
+                  </div>
+
+                  <div style="margin-top: 18px; display: flex; gap: 12px; flex-wrap: wrap;">
+                    <button class="primary-button" type="submit" style="flex: 1; min-width: 140px;">Create account</button>
+                  </div>
+                  <div id="registerAlert" class="alert"></div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="dashboardView" class="view">
+          <div class="dashboard-layout">
+            <div class="stats-grid">
+              <div class="stat-card">
+                <div class="stat-label">Projects in motion</div>
+                <div class="stat-value" id="statProjects">24</div>
+                <div class="stat-meta"><span class="trend up">▲ 12%</span><span class="muted">This month</span></div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-label">Mentor support</div>
+                <div class="stat-value" id="statMentors">8</div>
+                <div class="stat-meta"><span class="trend up">▲ 4%</span><span class="muted">Available</span></div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-label">Funding raised</div>
+                <div class="stat-value" id="statFunding">$48k</div>
+                <div class="stat-meta"><span class="trend up">▲ 9%</span><span class="muted">Budget</span></div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-label">Milestones due</div>
+                <div class="stat-value" id="statMilestones">13</div>
+                <div class="stat-meta"><span class="trend down">▼ 2</span><span class="muted">This week</span></div>
+              </div>
+            </div>
+
+            <div class="content-grid">
+              <div class="panel">
+                <div class="panel-header">
+                  <h3>Featured projects</h3>
+                  <button class="ghost-button" id="newProjectBtn">+ New project</button>
+                </div>
+                <div class="panel-body">
+                  <div class="section-controls" id="projectFilters"></div>
+                  <div class="project-list" id="projectList"></div>
+                </div>
+              </div>
+
+              <div class="panel">
+                <div class="panel-header">
+                  <h3>Recent activity</h3>
+                </div>
+                <div class="panel-body">
+                  <div class="activity-list" id="activityList"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="content-grid">
+              <div class="panel">
+                <div class="panel-header">
+                  <h3>Teams & collaboration</h3>
+                </div>
+                <div class="panel-body">
+                  <div class="team-list" id="teamList"></div>
+                </div>
+              </div>
+
+              <div class="panel">
+                <div class="panel-header">
+                  <h3>Mentor network</h3>
+                  <button class="secondary-button" id="exploreMentorsBtn">Explore</button>
+                </div>
+                <div class="panel-body">
+                  <div class="mentor-list" id="mentorList"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="discoverView" class="view">
+          <div class="panel">
+            <div class="panel-header">
+              <h3>Project discovery</h3>
+              <button class="secondary-button" id="saveDiscoverBtn">Filter results</button>
+            </div>
+            <div class="panel-body">
+              <div class="section-controls" id="discoveryFilters"></div>
+              <div class="grid-2" id="discoverGrid"></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="projectsView" class="view">
+          <div class="content-grid">
+            <div class="panel">
+              <div class="panel-header">
+                <h3>Create project</h3>
+              </div>
+              <div class="panel-body">
+                <form id="projectForm">
+                  <div class="form-grid">
+                    <div class="field">
+                      <label for="projectName">Project name</label>
+                      <input id="projectName" type="text" placeholder="Neural health assistant" required />
+                    </div>
+                    <div class="field">
+                      <label for="projectCategory">Category</label>
+                      <select id="projectCategory">
+                        <option>AI</option>
+                        <option>Health</option>
+                        <option>Education</option>
+                        <option>Climate</option>
+                        <option>Fintech</option>
+                      </select>
+                    </div>
+                    <div class="field full-span">
+                      <label for="projectDescription">Description</label>
+                      <textarea id="projectDescription" placeholder="Describe the goal, audience, and value proposition." required></textarea>
+                    </div>
+                    <div class="field full-span">
+                      <label for="projectRequirements">Requirements</label>
+                      <textarea id="projectRequirements" placeholder="List collaboration needs and milestones."></textarea>
+                    </div>
+                    <div class="field">
+                      <label for="projectStart">Start date</label>
+                      <input id="projectStart" type="date" />
+                    </div>
+                    <div class="field">
+                      <label for="projectDeadline">Deadline</label>
+                      <input id="projectDeadline" type="date" />
+                    </div>
+                  </div>
+                  <div class="inline-actions" style="margin-top: 18px;">
+                    <button class="secondary-button" type="reset">Clear form</button>
+                    <button class="primary-button" type="submit">Publish project</button>
+                  </div>
+                  <div id="projectFormAlert" class="alert"></div>
+                </form>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-header">
+                <h3>Project pipeline</h3>
+              </div>
+              <div class="panel-body">
+                <div class="stack-list" id="projectPipeline"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="mentorsView" class="view">
+          <div class="panel">
+            <div class="panel-header">
+              <h3>Mentorship board</h3>
+              <button class="secondary-button" id="requestMentorBtn">Request mentor</button>
+            </div>
+            <div class="panel-body">
+              <div class="mentor-list" id="mentorshipBoard"></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="fundingView" class="view">
+          <div class="content-grid">
+            <div class="panel">
+              <div class="panel-header">
+                <h3>Funding overview</h3>
+              </div>
+              <div class="panel-body">
+                <div class="funding-list" id="fundingList"></div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-header">
+                <h3>Bills & expenses</h3>
+              </div>
+              <div class="panel-body">
+                <div class="bill-list" id="billList"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="aiGuideView" class="view">
+          <div class="panel">
+            <div class="panel-header">
+              <h3>AI Project Guide</h3>
+            </div>
+            <div class="panel-body">
+              <form id="aiGuideForm">
+                <div class="form-grid">
+                  <div class="field full-span">
+                    <label for="aiPrompt">Describe your project idea</label>
+                    <textarea id="aiPrompt" placeholder="Example: I want to create a climate dashboard for students to compare energy use and funding impact."></textarea>
+                  </div>
+                </div>
+                <div class="inline-actions" style="margin-top: 18px;">
+                  <button class="secondary-button" type="button" id="aiGuideClear">Reset</button>
+                  <button class="primary-button" type="submit">Generate guide</button>
+                </div>
+              </form>
+              <div id="aiOutput" class="ai-output hidden"></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="settingsView" class="view">
+          <div class="panel">
+            <div class="panel-header">
+              <h3>Profile & account settings</h3>
+            </div>
+            <div class="panel-body">
+              <form id="settingsForm">
+                <div class="form-grid">
+                  <div class="field">
+                    <label for="profileName">Full name</label>
+                    <input id="profileName" type="text" value="Aanya Sharma" />
+                  </div>
+                  <div class="field">
+                    <label for="profileEmail">Email</label>
+                    <input id="profileEmail" type="email" value="aanya@innoverse.dev" />
+                  </div>
+                  <div class="field">
+                    <label for="profileSchool">Institution</label>
+                    <input id="profileSchool" type="text" value="VIT Vellore" />
+                  </div>
+                  <div class="field">
+                    <label for="profileLinkedIn">Portfolio / LinkedIn</label>
+                    <input id="profileLinkedIn" type="text" value="linkedin.com/in/aanyasharma" />
+                  </div>
+                  <div class="field full-span">
+                    <label for="profileBio">Bio</label>
+                    <textarea id="profileBio">Student innovator building AI-enabled education experiences for social impact.</textarea>
+                  </div>
+                </div>
+                <div class="inline-actions" style="margin-top: 18px;">
+                  <button class="secondary-button" type="button">Cancel</button>
+                  <button class="primary-button" type="submit">Save changes</button>
+                </div>
+                <div id="settingsAlert" class="alert"></div>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        <section id="adminView" class="view">
+          <div class="content-grid">
+            <div class="panel">
+              <div class="panel-header">
+                <h3>Platform users</h3>
+              </div>
+              <div class="panel-body">
+                <div class="review-list" id="adminUsersList"></div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-header">
+                <h3>Admin controls</h3>
+              </div>
+              <div class="panel-body">
+                <div class="resource-card">
+                  <div class="muted" style="margin-bottom: 14px;">Review queue</div>
+                  <div class="review-list" id="adminReviewQueue"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      const state = {
+        currentRole: 'Student',
+        currentView: 'auth',
+        theme: 'light'
+      };
+
+      const viewMap = {
+        auth: document.getElementById('authView'),
+        dashboard: document.getElementById('dashboardView'),
+        discover: document.getElementById('discoverView'),
+        projects: document.getElementById('projectsView'),
+        mentors: document.getElementById('mentorsView'),
+        funding: document.getElementById('fundingView'),
+        ai: document.getElementById('aiGuideView'),
+        settings: document.getElementById('settingsView'),
+        admin: document.getElementById('adminView')
+      };
+
+      const navDefinitions = {
+        Student: [
+          { key: 'dashboard', label: 'Overview', icon: '◫' },
+          { key: 'discover', label: 'Discover', icon: '⌕' },
+          { key: 'projects', label: 'Projects', icon: '▣' },
+          { key: 'mentors', label: 'Mentors', icon: '✦' },
+          { key: 'funding', label: 'Funding', icon: '₿' },
+          { key: 'ai', label: 'AI Guide', icon: '✧' },
+          { key: 'settings', label: 'Profile', icon: '⚙' }
+        ],
+        'Project Owner': [
+          { key: 'dashboard', label: 'Overview', icon: '◫' },
+          { key: 'projects', label: 'My Projects', icon: '▣' },
+          { key: 'discover', label: 'Discover', icon: '⌕' },
+          { key: 'mentors', label: 'Mentors', icon: '✦' },
+          { key: 'funding', label: 'Funding', icon: '₿' },
+          { key: 'settings', label: 'Profile', icon: '⚙' }
+        ],
+        Mentor: [
+          { key: 'dashboard', label: 'Dashboard', icon: '◫' },
+          { key: 'mentors', label: 'Mentorship', icon: '✦' },
+          { key: 'projects', label: 'Project reviews', icon: '▣' },
+          { key: 'funding', label: 'Funding', icon: '₿' },
+          { key: 'settings', label: 'Profile', icon: '⚙' }
+        ],
+        Admin: [
+          { key: 'dashboard', label: 'Overview', icon: '◫' },
+          { key: 'admin', label: 'Users', icon: '◎' },
+          { key: 'projects', label: 'Projects', icon: '▣' },
+          { key: 'funding', label: 'Funding', icon: '₿' },
+          { key: 'settings', label: 'Config', icon: '⚙' }
+        ]
+      };
+
+      const demoProjects = [
+        { title: 'CivicSense', category: 'AI', status: 'In review', progress: 68, team: '5 members', deadline: 'Nov 19', match: 'High fit' },
+        { title: 'GreenPulse', category: 'Climate', status: 'Active', progress: 84, team: '6 members', deadline: 'Dec 02', match: 'Strong fit' },
+        { title: 'PeerLearn', category: 'Education', status: 'Funding', progress: 52, team: '3 members', deadline: 'Dec 14', match: 'Broad interest' },
+        { title: 'CareConnect', category: 'Health', status: 'Prototype', progress: 71, team: '4 members', deadline: 'Nov 30', match: 'High fit' }
+      ];
+
+      const activityFeed = [
+        { title: 'Mentor feedback received', meta: '6 hours ago · CivicSense', accent: 'blue' },
+        { title: 'Funding milestone approved', meta: 'Yesterday · GreenPulse', accent: 'green' },
+        { title: 'New team member joined', meta: '2 days ago · PeerLearn', accent: 'orange' },
+        { title: 'Milestone deadline updated', meta: '3 days ago · CareConnect', accent: 'gray' }
+      ];
+
+      const teamMembers = [
+        { name: 'Aarav S.', role: 'Product lead', status: 'Online' },
+        { name: 'Neha P.', role: 'UI/UX designer', status: 'In review' },
+        { name: 'Ishaan M.', role: 'Data engineer', status: 'Online' },
+        { name: 'Riya D.', role: 'Researcher', status: 'Offline' }
+      ];
+
+      const mentors = [
+        { name: 'Dr. Meera Nair', specialty: 'AI product strategy', availability: 'Available this week' },
+        { name: 'Ankit Rao', specialty: 'Hardware innovation', availability: 'Open for 1:1' },
+        { name: 'Priya Sethi', specialty: 'Community impact design', availability: 'Booked for Friday' }
+      ];
+
+      const fundingItems = [
+        { name: 'Prototype budget', amount: '$12,400', type: 'Approved', status: 'green' },
+        { name: 'Travel sponsorship', amount: '$3,200', type: 'Pending review', status: 'orange' },
+        { name: 'Mentor stipends', amount: '$6,750', type: 'Allocated', status: 'blue' }
+      ];
+
+      const bills = [
+        { name: 'Cloud hosting', period: 'Nov 2026', amount: '$480', status: 'Paid' },
+        { name: 'Design tools', period: 'Nov 2026', amount: '$230', status: 'Pending' },
+        { name: 'Workshop materials', period: 'Nov 2026', amount: '$810', status: 'Review' }
+      ];
+
+      const adminUsers = [
+        { name: 'Aanya Sharma', role: 'Student', status: 'Online' },
+        { name: 'Sahil Verma', role: 'Project Owner', status: 'Reviewing' },
+        { name: 'Dr. Meera Nair', role: 'Mentor', status: 'Available' },
+        { name: 'Priyansh Raj', role: 'Admin', status: 'Monitoring' }
+      ];
+
+      function renderNav() {
+        const navContainer = document.getElementById('navContainer');
+        navContainer.innerHTML = '';
+
+        const list = navDefinitions[state.currentRole] || navDefinitions.Student;
+        list.forEach((item) => {
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.className = 'nav-item' + (state.currentView === item.key ? ' active' : '');
+          button.innerHTML = `<span class="nav-ico">${item.icon}</span><span>${item.label}</span>`;
+          button.addEventListener('click', () => {
+            state.currentView = item.key;
+            updateViews();
+          });
+          navContainer.appendChild(button);
+        });
+
+        const footerRole = state.currentRole === 'Admin' ? 'Admin' : state.currentRole;
+        document.getElementById('headerUserName').textContent = state.currentRole === 'Student' ? 'Aanya Sharma' : state.currentRole === 'Admin' ? 'Platform Admin' : state.currentRole === 'Mentor' ? 'Dr. Meera Nair' : 'Sahil Verma';
+        document.getElementById('headerUserRole').textContent = footerRole;
+        document.getElementById('headerAvatar').textContent = footerRole.charAt(0);
+      }
+
+      function applyTheme() {
+        document.body.classList.toggle('dark', state.theme === 'dark');
+        const toggle = document.getElementById('themeToggle');
+        if (toggle) {
+          toggle.textContent = state.theme === 'dark' ? '🌙' : '☀️';
+        }
+      }
+
+      function updateViews() {
+        Object.entries(viewMap).forEach(([key, element]) => {
+          element.classList.toggle('active', key === state.currentView || (state.currentView === 'dashboard' && key === 'dashboard'));
+        });
+
+        const sidebar = document.querySelector('.sidebar');
+        if (sidebar) {
+          sidebar.style.display = state.currentView === 'auth' ? 'none' : 'block';
+        }
+
+        const pageTitles = {
+          auth: 'Welcome',
+          dashboard: 'Dashboard',
+          discover: 'Discover',
+          projects: 'Projects',
+          mentors: 'Mentors',
+          funding: 'Funding',
+          ai: 'AI Project Guide',
+          settings: 'Profile',
+          admin: 'Administration'
+        };
+        document.getElementById('pageTitle').textContent = pageTitles[state.currentView] || 'Dashboard';
+        renderNav();
+        renderDashboard();
+      }
+
+      function renderDashboard() {
+        const projectFilters = document.getElementById('projectFilters');
+        const discoverFilters = document.getElementById('discoveryFilters');
+        projectFilters.innerHTML = '<button class="pill-button active" type="button">All</button><button class="pill-button" type="button">AI</button><button class="pill-button" type="button">Climate</button><button class="pill-button" type="button">Education</button>';
+        discoverFilters.innerHTML = projectFilters.innerHTML;
+
+        document.getElementById('projectList').innerHTML = demoProjects.map((project) => `
+          <div class="project-card">
+            <div class="project-head">
+              <div>
+                <div class="project-title">${project.title}</div>
+                <div class="project-meta"><span>${project.category}</span><span>•</span><span>${project.team}</span></div>
+              </div>
+              <span class="badge ${getBadgeClass(project.status)}">${project.status}</span>
+            </div>
+            <div class="project-meta"><span>${project.match}</span><span>•</span><span>Deadline ${project.deadline}</span></div>
+            <div class="progress"><span style="width:${project.progress}%"></span></div>
+            <div class="inline-actions">
+              <span class="muted">${project.progress}% complete</span>
+              <button class="ghost-button" type="button">View details</button>
+            </div>
+          </div>
+        `).join('');
+
+        document.getElementById('activityList').innerHTML = activityFeed.map((item) => `
+          <div class="activity-item">
+            <div class="activity-head">
+              <div class="activity-title">${item.title}</div>
+              <span class="badge ${item.accent === 'green' ? 'green' : item.accent === 'orange' ? 'orange' : item.accent === 'gray' ? 'gray' : 'blue'}">${item.accent}</span>
+            </div>
+            <div class="activity-meta">${item.meta}</div>
+          </div>
+        `).join('');
+
+        document.getElementById('teamList').innerHTML = teamMembers.map((member) => `
+          <div class="team-member">
+            <div class="member-meta">
+              <div class="mini-avatar">${member.name.split(' ').map((part) => part[0]).slice(0,2).join('')}</div>
+              <div>
+                <div class="team-name">${member.name}</div>
+                <div class="team-meta">${member.role}</div>
+              </div>
+            </div>
+            <span class="badge ${member.status === 'Online' ? 'green' : member.status === 'In review' ? 'orange' : 'gray'}">${member.status}</span>
+          </div>
+        `).join('');
+
+        document.getElementById('mentorList').innerHTML = mentors.map((mentor) => `
+          <div class="mentor-card">
+            <div class="mentor-head">
+              <div class="mentor-name">${mentor.name}</div>
+              <span class="badge blue">Mentor</span>
+            </div>
+            <div class="mentor-meta">${mentor.specialty}</div>
+            <div class="mentor-meta">${mentor.availability}</div>
+            <button class="secondary-button" type="button">Book session</button>
+          </div>
+        `).join('');
+
+        document.getElementById('discoverGrid').innerHTML = demoProjects.map((project) => `
+          <div class="project-card">
+            <div class="project-head">
+              <div>
+                <div class="project-title">${project.title}</div>
+                <div class="project-meta"><span>${project.category}</span></div>
+              </div>
+              <span class="badge ${getBadgeClass(project.status)}">${project.status}</span>
+            </div>
+            <div class="muted">${project.match}</div>
+            <div class="progress"><span style="width:${project.progress}%"></span></div>
+            <div class="inline-actions">
+              <span class="muted">${project.deadline}</span>
+              <button class="primary-button" type="button">Join project</button>
+            </div>
+          </div>
+        `).join('');
+
+        document.getElementById('projectPipeline').innerHTML = demoProjects.slice(0,3).map((project, index) => `
+          <div class="stack-item">
+            <div>
+              <div class="team-name">${project.title}</div>
+              <div class="muted">Stage ${index + 1} • ${project.status}</div>
+            </div>
+            <span class="badge ${getBadgeClass(project.status)}">${project.progress}%</span>
+          </div>
+        `).join('');
+
+        document.getElementById('mentorshipBoard').innerHTML = mentors.map((mentor) => `
+          <div class="mentor-card">
+            <div class="mentor-head">
+              <div class="mentor-name">${mentor.name}</div>
+              <span class="badge green">Available</span>
+            </div>
+            <div class="mentor-meta">${mentor.specialty}</div>
+            <div class="mentor-meta">${mentor.availability}</div>
+            <button class="primary-button" type="button">Request guidance</button>
+          </div>
+        `).join('');
+
+        document.getElementById('fundingList').innerHTML = fundingItems.map((fund) => `
+          <div class="list-row">
+            <div>
+              <div class="team-name">${fund.name}</div>
+              <div class="muted">${fund.type}</div>
+            </div>
+            <div style="text-align:right;">
+              <div class="team-name">${fund.amount}</div>
+              <span class="badge ${fund.status === 'green' ? 'green' : fund.status === 'orange' ? 'orange' : 'blue'}">${fund.type}</span>
+            </div>
+          </div>
+        `).join('');
+
+        document.getElementById('billList').innerHTML = bills.map((bill) => `
+          <div class="bill-item">
+            <div class="list-meta">
+              <div class="team-name">${bill.name}</div>
+              <span class="badge ${bill.status === 'Paid' ? 'green' : bill.status === 'Pending' ? 'orange' : 'blue'}">${bill.status}</span>
+            </div>
+            <div class="project-meta"><span>${bill.period}</span><span>•</span><span>${bill.amount}</span></div>
+          </div>
+        `).join('');
+
+        document.getElementById('adminUsersList').innerHTML = adminUsers.map((user) => `
+          <div class="list-row">
+            <div class="member-meta">
+              <div class="mini-avatar">${user.name.split(' ').map((part) => part[0]).join('')}</div>
+              <div>
+                <div class="team-name">${user.name}</div>
+                <div class="muted">${user.role}</div>
+              </div>
+            </div>
+            <span class="badge ${user.status === 'Online' ? 'green' : user.status === 'Monitoring' ? 'blue' : 'gray'}">${user.status}</span>
+          </div>
+        `).join('');
+
+        document.getElementById('adminReviewQueue').innerHTML = [
+          'CivicSense funding request',
+          'A new mentor application',
+          'Milestone compliance review',
+          'Project owner verification update'
+        ].map((item) => `<div class="list-row"><div>${item}</div><button class="ghost-button" type="button">Review</button></div>`).join('');
+      }
+
+      function getBadgeClass(status) {
+        if (status === 'Active' || status === 'Paid' || status === 'Approved') return 'green';
+        if (status === 'In review' || status === 'Pending' || status === 'Prototype') return 'orange';
+        if (status === 'Funding' || status === 'Allocated') return 'blue';
+        return 'gray';
+      }
+
+      function changeAuthTab(tab) {
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        const tabs = document.querySelectorAll('.auth-tab');
+
+        tabs.forEach((button) => button.classList.toggle('active', button.dataset.authTab === tab));
+        loginForm.classList.toggle('hidden', tab !== 'login');
+        registerForm.classList.toggle('hidden', tab !== 'register');
+      }
+
+      function setAlert(elementId, message, type) {
+        const alert = document.getElementById(elementId);
+        alert.textContent = message;
+        alert.className = `alert show ${type}`;
+      }
+
+      function loginUser(event) {
+        event.preventDefault();
+        const role = document.getElementById('loginRole').value;
+        state.currentRole = role;
+        state.currentView = 'dashboard';
+        updateViews();
+        showDashboard();
+        setAlert('loginAlert', `Signed in as ${role}.`, 'success');
+      }
+
+      function registerUser(event) {
+        event.preventDefault();
+        const role = document.getElementById('registerRole').value;
+        state.currentRole = role;
+        setAlert('registerAlert', 'Registration submitted successfully. You can now log in.', 'success');
+        changeAuthTab('login');
+        document.getElementById('loginRole').value = role;
+      }
+
+      function showDashboard() {
+        document.getElementById('authView').classList.remove('active');
+        document.getElementById('dashboardView').classList.add('active');
+      }
+
+      function logoutUser() {
+        state.currentRole = 'Student';
+        state.currentView = 'auth';
+        document.getElementById('authView').classList.add('active');
+        document.getElementById('dashboardView').classList.remove('active');
+        document.getElementById('discoverView').classList.remove('active');
+        document.getElementById('projectsView').classList.remove('active');
+        document.getElementById('mentorsView').classList.remove('active');
+        document.getElementById('fundingView').classList.remove('active');
+        document.getElementById('aiGuideView').classList.remove('active');
+        document.getElementById('settingsView').classList.remove('active');
+        document.getElementById('adminView').classList.remove('active');
+        updateViews();
+      }
+
+      document.querySelectorAll('.auth-tab').forEach((tab) => {
+        tab.addEventListener('click', () => changeAuthTab(tab.dataset.authTab));
+      });
+
+      document.getElementById('themeToggle').addEventListener('click', () => {
+        state.theme = state.theme === 'light' ? 'dark' : 'light';
+        applyTheme();
+      });
+
+      document.getElementById('loginForm').addEventListener('submit', loginUser);
+      document.getElementById('registerForm').addEventListener('submit', registerUser);
+      document.getElementById('logoutBtn').addEventListener('click', logoutUser);
+      document.getElementById('forgotPasswordLink').addEventListener('click', () => {
+        const email = document.getElementById('loginEmail').value || 'student@innoverse.dev';
+        setAlert('loginAlert', `Recovery link sent to ${email}. Please answer the security question to continue.`, 'success');
+      });
+
+      document.getElementById('newProjectBtn').addEventListener('click', () => {
+        state.currentView = 'projects';
+        updateViews();
+      });
+
+      document.getElementById('exploreMentorsBtn').addEventListener('click', () => {
+        state.currentView = 'mentors';
+        updateViews();
+      });
+
+      document.getElementById('projectForm').addEventListener('submit', (event) => {
+        event.preventDefault();
+        setAlert('projectFormAlert', 'Project published successfully and added to your project pipeline.', 'success');
+      });
+
+      document.getElementById('settingsForm').addEventListener('submit', (event) => {
+        event.preventDefault();
+        setAlert('settingsAlert', 'Profile settings saved successfully.', 'success');
+      });
+
+      document.getElementById('aiGuideForm').addEventListener('submit', (event) => {
+        event.preventDefault();
+        const prompt = document.getElementById('aiPrompt').value.trim();
+        const output = document.getElementById('aiOutput');
+        if (!prompt) {
+          output.textContent = 'Describe a project idea to generate a practical guide.';
+          output.classList.remove('hidden');
+          return;
+        }
+
+        const lower = prompt.toLowerCase();
+        let guide = `Project concept summary:\n- Focus on a clear problem statement and a measurable user outcome.\n- Validate the problem with 3 user interviews or competitor reviews.\n- Prioritize a minimum viable prototype that demonstrates value quickly.\n\nRecommended next steps:\n1. Define the audience and success metric.\n2. Map the workflow and identify the smallest useful feature set.\n3. Create a milestone plan with a user testing loop.\n4. Prepare your pitch, budget, and outreach strategy.\n\nSuggested team roles:\n- Product lead\n- Technical builder\n- Research/UX contributor\n- Growth and storytelling support`;
+
+        if (lower.includes('ai') || lower.includes('machine learning')) {
+          guide = `AI roadmap:\n- Define the user-facing problem before selecting a model.\n- Run a proof-of-concept on a small public dataset.\n- Check fairness, explainability, and privacy assumptions.\n- Plan feedback loops and a fallback for edge cases.\n\nKey milestones:\n1. Dataset and use-case validation\n2. MVP prototype\n3. Accuracy testing and iteration\n4. Demo-ready pitch and funding narrative`;
+        }
+
+        if (lower.includes('climate') || lower.includes('green')) {
+          guide = `Climate innovation plan:\n- Estimate your environmental and community impact by measurable indicators.\n- Prioritize a high-trust design with local stakeholders.\n- Validate assumptions through field research and pilot partnerships.\n\nNext actions:\n1. Prepare your impact framework\n2. Create a low-cost pilot\n3. Measure adoption and quality of life outcomes`;
+        }
+
+        if (lower.includes('education') || lower.includes('learning')) {
+          guide = `Education roadmap:\n- Identify the learner segment and the problem your solution solves.\n- Design a lightweight feedback loop to improve engagement.\n- Align your outreach plan with teachers, students, and institutions.\n\nReadiness checklist:\n- Clear learning objective\n- Intuitive UX\n- Sample workflow\n- Demo story and metrics`;
+        }
+
+        output.textContent = guide;
+        output.classList.remove('hidden');
+      });
+
+      document.getElementById('aiGuideClear').addEventListener('click', () => {
+        document.getElementById('aiPrompt').value = '';
+        document.getElementById('aiOutput').classList.add('hidden');
+      });
+
+      document.querySelectorAll('.toggle-password').forEach((button) => {
+        button.addEventListener('click', () => {
+          const input = document.getElementById(button.dataset.target);
+          const nextType = input.type === 'password' ? 'text' : 'password';
+          input.type = nextType;
+          button.textContent = nextType === 'password' ? '👁' : '🙈';
+        });
+      });
+
+      document.getElementById('globalSearch').addEventListener('input', (event) => {
+        const value = event.target.value.toLowerCase();
+        const projectCards = document.querySelectorAll('.project-card');
+        projectCards.forEach((card) => {
+          const text = card.textContent.toLowerCase();
+          card.style.display = text.includes(value) ? '' : 'none';
+        });
+      });
+
+      document.addEventListener('DOMContentLoaded', () => {
+        applyTheme();
+        updateViews();
+        renderNav();
+        renderDashboard();
+        fetch('/api/state').catch(() => {
+          console.info('No backend session available; frontend continues in local demo mode.');
+        });
+      });
+    </script>
+  </body>
+</html>
